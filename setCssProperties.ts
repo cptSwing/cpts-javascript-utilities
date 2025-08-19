@@ -1,0 +1,8 @@
+const setCssProperties = (element: HTMLElement, styleProperties: AnimationProperties) => {
+    for (const property in styleProperties) {
+        const value = typeof styleProperties[property] === 'number' ? styleProperties[property].toString() + 'ms' : styleProperties[property];
+        element.style.setProperty(property, value);
+    }
+};
+
+export default setCssProperties;
