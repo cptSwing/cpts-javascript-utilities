@@ -25,7 +25,7 @@ function setCookie(
     for (let attributeKey in attributes) {
         updatedCookie += '; ' + attributeKey;
 
-        let attributeValue = attributes[attributeKey];
+        let attributeValue = attributes[attributeKey as keyof CookieAttributes];
 
         if (attributeValue !== true) {
             updatedCookie += '=' + attributeValue;

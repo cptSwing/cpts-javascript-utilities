@@ -1,7 +1,13 @@
-const setCssProperties = (element: HTMLElement, styleProperties: AnimationProperties) => {
+import type * as CSS from 'csstype';
+
+interface Style extends CSS.Properties, CSS.PropertiesHyphen {}
+
+const setCssProperties = (element: HTMLElement, styleProperties: Style) => {
     for (const property in styleProperties) {
-        const value = typeof styleProperties[property] === 'number' ? styleProperties[property].toString() + 'ms' : styleProperties[property];
-        element.style.setProperty(property, value);
+        const typedProperty = property as keyof Style;
+
+        const value = typeof styleProperties[typedProperty] === 'number' ? styleProperties[typedProperty].toString() : styleProperties[typedProperty];
+        element.style.setProperty(property, value || null);
     }
 };
 

@@ -1,0 +1,26 @@
+{
+    "name": "cpts-javascript-utilities",
+    "version": "1.0.0",
+    "description": "Common helper functions in javascript/typescript",
+    "repository": "https://github.com/cptSwing/cpts-javascript-utilities.git",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "exports": {
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.cjs"
+    },
+    "author": "Jens Brandenburg <jens@jbrandenburg.de>",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsup index.ts --format esm,cjs --dts"
+    },
+    "devDependencies": {
+        "csstype": "^3.1.3",
+        "tsup": "^8.5.0",
+        "typescript": "^5.9.2"
+    },
+    "dependencies": {
+        "@types/react": "^19.1.10"
+    }
+}
