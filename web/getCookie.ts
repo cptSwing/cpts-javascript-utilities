@@ -1,7 +1,7 @@
 // returns the cookie with the given name,
 // or undefined if not found
 
-function getCookie(name) {
+function getCookie(name: string): string | undefined {
     let matches = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
