@@ -1,8 +1,9 @@
-import { Project } from 'ts-morph';
+import { FunctionDeclaration, Project, SourceFile } from 'ts-morph';
 
 // No trailing slash here!
 const GITHUB_BASE = 'https://github.com/cptSwing/cpts-javascript-utilities/blob/main';
 const declarationsPath = 'dist/index.d.ts';
+const ignoredFileNames = ['index'];
 
 try {
     const project = new Project({
@@ -11,9 +12,6 @@ try {
 
     const rootDirectory = project.getRootDirectories()[0].getPath();
     if (!rootDirectory) throw new Error('No Rootdirectory found!');
-
-    const declarationsFile = project.addSourceFileAtPath(declarationsPath);
-    if (!rootDirectory) throw new Error(`No file found at ${declarationsPath}!`);
 
     const sourceFiles = project.getSourceFiles();
     if (!sourceFiles.length) throw new Error(`No source files found in project!`);
@@ -29,11 +27,22 @@ try {
         };
     });
 
+    const declarationsFile = project.addSourceFileAtPath(declarationsPath);
+    if (!rootDirectory) throw new Error(`No file found at ${declarationsPath}!`);
+
     const functionDeclarations = declarationsFile.getFunctions();
     if (!functionDeclarations.length) throw new Error(`No function declarations found in declarations file!`);
 
+    if (functionDeclarations.length !== sourceFiles.length) {
+        checkDeclarations(functionDeclarations, sourceFiles);
+    }
+
+    const created: string[] = [];
+    const added: string[] = [];
+
     for (const functionDeclaration of functionDeclarations) {
         const functionDeclarationName = functionDeclaration.getName();
+        if (!functionDeclarationName) throw new Error(`Function declaration has no name!`);
 
         const sourceFileData = sourceFilesData.find((sourceFileData) => sourceFileData.baseNameWithoutExtension === functionDeclarationName);
         if (!sourceFileData) throw new Error(`No sourceFileData found for function declaration "${functionDeclarationName}"!`);
@@ -50,7 +59,7 @@ try {
                     tagName: 'see',
                     text: newTagText,
                 });
-                console.log(`additional @see tag added to ${functionDeclarationName}'s declaration`);
+                added.push(functionDeclarationName);
             }
         } else {
             jsDoc = functionDeclaration.addJsDoc({
@@ -62,11 +71,41 @@ try {
                     },
                 ],
             });
-            console.log(`@see tag added to ${functionDeclarationName}'s declaration`);
+            created.push(functionDeclarationName);
         }
     }
 
     project.saveSync();
+
+    created.length && console.log(`JSDoc Updates: @see link created for ${created.join(', ')}`);
+    added.length && console.log(`JSDoc Updates: @see link added to ${added.join(', ')}`);
 } catch (error) {
-    throw error;
+    console.error(error);
+}
+function checkDeclarations(functionDeclarations: FunctionDeclaration[], sourceFiles: SourceFile[]) {
+    const funcDeclData = [functionDeclarations, 'functionDeclarations'] as [FunctionDeclaration[], string];
+    const srcFilesData = [sourceFiles, 'sourceFiles'] as [SourceFile[], string];
+
+    const funcDeclarationsIsLonger = functionDeclarations.length > sourceFiles.length;
+    const largest = funcDeclarationsIsLonger ? funcDeclData : srcFilesData;
+    const smallest = largest === funcDeclData ? srcFilesData : funcDeclData;
+
+    const [largestArray, largestArrayName] = largest;
+    const [smallestArray, smallestArrayName] = smallest;
+
+    const notInSmaller: string[] = [];
+
+    largestArray.forEach((elem: SourceFile | FunctionDeclaration, idx: number) => {
+        const largestName = (elem as SourceFile).getBaseNameWithoutExtension?.() ?? (elem as FunctionDeclaration).getName?.();
+        const hasLargestName = smallestArray.some(
+            (elem: SourceFile | FunctionDeclaration) =>
+                largestName === ((elem as SourceFile).getBaseNameWithoutExtension?.() ?? (elem as FunctionDeclaration).getName?.())
+        );
+
+        !hasLargestName && notInSmaller.push(largestName);
+    });
+
+    if (!notInSmaller.some((name) => ignoredFileNames.includes(name))) {
+        throw new Error(`${smallestArrayName} is missing ${notInSmaller.length} function from ${largestArrayName}: ${notInSmaller.join(', ')}!`);
+    }
 }
