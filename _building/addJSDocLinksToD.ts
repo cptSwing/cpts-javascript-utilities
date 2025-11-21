@@ -20,12 +20,10 @@ walk(DTS_ROOT, (filePath) => {
     if (!filePath.endsWith('.d.ts')) return;
 
     let content = fs.readFileSync(filePath, 'utf8');
-
     const relative = normalizePath(path.relative(path.join(__dirname, '..'), filePath));
-
     const githubUrl = `${GITHUB_BASE}/${relative}`;
 
-    // Skip if already contains @see for this URL
+    // Skip if already contains @see for this URL <-- wrong comment tbh
     if (content.includes(githubUrl)) return;
 
     // Regex to match exported function/class/interface declarations
