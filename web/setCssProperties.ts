@@ -2,7 +2,7 @@ import type * as CSS from 'csstype';
 
 interface Style extends CSS.Properties, CSS.PropertiesHyphen {}
 
-const setCssProperties = (element: HTMLElement, styleProperties: Style) => {
+function setCssProperties(element: HTMLElement, styleProperties: Style) {
     for (const property in styleProperties) {
         const typedProperty = property as keyof Style;
 
