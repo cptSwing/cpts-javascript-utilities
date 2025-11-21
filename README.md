@@ -1,10 +1,6 @@
 # cpts-javascript-utilities
 Common helper functions in javascript
 
-[x] Add all my js/ts snippets from VSCode
-[ ] Or rather compile down to JS as needed? Does this help? https://tofusoup429.medium.com/how-to-make-your-own-npm-package-with-typescript-d-ts-extension-57e664223e96
-
-
 
 ## Array
 
