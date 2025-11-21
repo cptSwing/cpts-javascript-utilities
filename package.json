@@ -14,10 +14,9 @@
     "license": "MIT",
     "scripts": {
         "build": "rm -rf dist && tsup index.ts --format esm,cjs --dts",
-        "postbuild": "node ./_building/addJSDocLinksToD.ts && tsc -p tsconfig.json"
+        "postbuild": "node ./_building/addJSDocLinksToD.ts"
     },
     "devDependencies": {
-        "@types/node": "^24.10.1",
         "@types/react": "^19.2.6",
         "csstype": "^3.1.3"
     },
