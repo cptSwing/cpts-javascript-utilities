@@ -44,7 +44,7 @@ declare function capitalizeFirstLetter(string: string): string;
 
 declare function fractionGlyphToNumber(char: string): number | undefined;
 
-declare const parseDateString: (dateString: string | string[]) => {
+declare function parseDateString(dateString: string | string[]): {
     range: string;
     year?: undefined;
     month?: undefined;
@@ -66,7 +66,20 @@ declare function jsonParseStringify<T>(object: T): object;
 
 declare function promiseWithTimeout<T>(promise: Promise<T>, ms?: number): Promise<T>;
 
-declare function classNames(...classes: (string | undefined)[]): string;
+/**
+ * Joins strings of CSS classnames
+ *
+ * This enables ternary operations, or short-circuit evaluation for conditional application of classes.
+ *
+ * @param {...(string | false | undefined | null)[]} classes - Array of strings
+ * @returns {string} A concatenated string joining all in `classes`
+ * @example
+ *
+ * const foo = false;
+ * const classesString = classNames('class-one', 'class-two', foo && 'class-three'); // 'class-one class-two'
+ *
+ */
+declare function classNames(...classes: (string | false | undefined | null)[]): string;
 
 declare function getCookie(name: string): string | undefined;
 
@@ -76,7 +89,7 @@ declare function keyDownA11y(handler: EventListener | React.EventHandler<React.S
 
 interface Style$1 extends CSS.Properties, CSS.PropertiesHyphen {
 }
-declare const removeCssProperties: (element: HTMLElement, styleProperties: Style$1) => void;
+declare function removeCssProperties(element: HTMLElement, styleProperties: Style$1): void;
 
 declare function remToPixels(remParam: string): number;
 
@@ -95,6 +108,6 @@ declare function setCookie(name: string, value: string | number | boolean, attri
 
 interface Style extends CSS.Properties, CSS.PropertiesHyphen {
 }
-declare const setCssProperties: (element: HTMLElement, styleProperties: Style) => void;
+declare function setCssProperties(element: HTMLElement, styleProperties: Style): void;
 
 export { averageOfNumbers, booleanAsNumber, capitalizeFirstLetter, circumferenceToRadius, classNames, commonElements, countDigits, cycleThrough, degreeToRadian, formatSecondsAsTime, fractionGlyphToNumber, generateRange, getCookie, getCurrentElementRotation, inverseLinearInterpolate, isUUID, jsonParseStringify, keyDownA11y, linearInterpolate, medianOfNumbers, nearestNumber, parseDateString, promiseWithTimeout, radiusToCircumference, randomElement, randomIntegerInRange, remToPixels, remapRange, removeCssProperties, removeDuplicates, roundNumberToDecimal, scrollbarWidth, setCookie, setCssProperties, smallestPositiveAtDecimal, stripExtraSpaces, truncateNumber };

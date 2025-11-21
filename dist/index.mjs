@@ -177,14 +177,14 @@ function fractionGlyphToNumber(char) {
 var fractionGlyphToNumber_default = fractionGlyphToNumber;
 
 // string/parseDateString.ts
-var parseDateString = (dateString) => {
+function parseDateString(dateString) {
   if (Array.isArray(dateString)) {
     return { range: "" };
   } else {
     const yearMonthDay = dateString.split("-");
     return { year: yearMonthDay[0], month: yearMonthDay[1], day: yearMonthDay[2] };
   }
-};
+}
 var parseDateString_default = parseDateString;
 
 // string/stripExtraSpaces.ts
@@ -267,11 +267,11 @@ var keys_confirm = ["Enter", " "];
 var keyDownA11y_default = keyDownA11y;
 
 // web/removeCssProperties.ts
-var removeCssProperties = (element, styleProperties) => {
+function removeCssProperties(element, styleProperties) {
   for (const property in styleProperties) {
     element.style.removeProperty(property);
   }
-};
+}
 var removeCssProperties_default = removeCssProperties;
 
 // web/remToPixels.ts
@@ -311,13 +311,13 @@ function setCookie(name, value, attributes = {
 var setCookie_default = setCookie;
 
 // web/setCssProperties.ts
-var setCssProperties = (element, styleProperties) => {
+function setCssProperties(element, styleProperties) {
   for (const property in styleProperties) {
     const typedProperty = property;
     const value = typeof styleProperties[typedProperty] === "number" ? styleProperties[typedProperty].toString() : styleProperties[typedProperty];
     element.style.setProperty(property, value || null);
   }
-};
+}
 var setCssProperties_default = setCssProperties;
 export {
   averageOfNumbers_default as averageOfNumbers,
