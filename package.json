@@ -13,7 +13,7 @@
     "author": "Jens Brandenburg <jens@jbrandenburg.de>",
     "license": "MIT",
     "scripts": {
-        "build": "tsup index.ts --format esm,cjs --dts",
+        "build": "rm-rf dist && tsup index.ts --format esm,cjs --dts",
         "postbuild": "node ./_building/addJSDocLinksToD.ts && tsc -p tsconfig.json"
     },
     "devDependencies": {
