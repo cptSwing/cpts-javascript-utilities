@@ -1,6 +1,6 @@
 {
     "name": "cpts-javascript-utilities",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Common helper functions in javascript/typescript",
     "repository": "https://github.com/cptSwing/cpts-javascript-utilities.git",
     "main": "dist/index.js",
